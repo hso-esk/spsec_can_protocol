@@ -95,7 +95,7 @@ SPsecMessage *parse_sync_broadcast_frame(uint32_t base_id,
   tb_msg_ptr->spsec_app_data_ptr = sad_ptr;
   SPsecMessage *msg_ptr = spsecmessage_new(MSGTYPE_SYNC_TIME_BROADCAST, tb_msg_ptr);
   if (!msg_ptr) {
-    tb_msg_ptr->spsec_app_data_ptr = NULL;  // Prevent double-free in spsecsynctimebroadcast_free
+    // Frees sad_ptr too; nothing else owns it.
     spsecsynctimebroadcast_free(tb_msg_ptr);
     return NULL;
   }
@@ -122,7 +122,7 @@ SPsecMessage *parse_heartbeat_broadcast_frame(uint32_t base_id,
   hb_ptr->spsec_app_data_ptr = sad_ptr;
   SPsecMessage *msg_ptr = spsecmessage_new(MSGTYPE_HEARTBEAT, hb_ptr);
   if (!msg_ptr) {
-    hb_ptr->spsec_app_data_ptr = NULL;  // Prevent double-free in spsecheartbeat_free
+    // Frees sad_ptr too; nothing else owns it.
     spsecheartbeat_free(hb_ptr);
     return NULL;
   }

@@ -199,9 +199,7 @@ signed char participant_channel_send_read_initiate_response(
 /**
  * @brief Send an encrypted read segment response (data_ptr + tag).
  */
-// Round a payload length up to the next valid CAN FD DLC (0-8, then 12, 16, 20,
-// 24, 32, 48, 64). Control-plane segment frames must land on a valid DLC so the
-// wire length is well-defined; the gap is filled with 0xFF padding.
+// Round payload length up to next valid CAN FD DLC, padding with 0xFF.
 static size_t next_canfd_dlc(size_t len) {
   static const size_t dlcs[] = {12, 16, 20, 24, 32, 48, 64};
   if (len <= 8)

@@ -164,9 +164,7 @@ SPsecMessage *parse_write_segment_request_frame(uint8_t *arb_id_bytes_ptr,
     return NULL;
   SPsecClientWriteSegmentRequest *write_seg_msg_ptr = spsecwritesegmentrequest_new(
       arb_id_bytes_ptr[0] & 0x7F, cnt_lsb, data_ptr, cipher_len_effective);
-  // _new copies data_ptr into its own buffer (which is later overwritten by the
-  // decrypt output), so this scratch buffer is done with — free it here rather
-  // than leak it on every received frame.
+  // Free temporary scratch buffer after message initialization.
   free(data_ptr);
   if (!write_seg_msg_ptr)
     return NULL;

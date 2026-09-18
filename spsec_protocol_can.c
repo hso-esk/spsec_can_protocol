@@ -98,9 +98,7 @@ signed char participant_channel_restore_timestamp_and_padding(
   LOG_DEBUG(logger_name_ptr, "Current timestamp_ptr LSBs: 0x%03x", current_lsb);
   LOG_DEBUG(logger_name_ptr, "Message timestamp_ptr LSBs: 0x%03x", frame12);
 
-  // Pick the full timestamp closest to the local clock: a naive bitmask merge
-  // breaks when frame12 sits just across a 4096-tick rollover, so shift by
-  // ±4096 to keep |restored - local| <= 2048 ticks.
+  // Restore full timestamp closest to local clock within +/-2048 ticks.
   int32_t delta = (int32_t)frame12 - (int32_t)current_lsb;
   if (delta > 2048)
     delta -= 4096;

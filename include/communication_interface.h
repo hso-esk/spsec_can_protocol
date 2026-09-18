@@ -36,9 +36,7 @@ signed char can_channel_receive_frame(CommChannel *channel_ptr, CanFrame *out_fr
 // Probe the CAN socket: 0 if healthy, -1 on ENETDOWN/ENODEV or other fatal error.
 signed char can_channel_check_link_alive(CommChannel *channel_ptr);
 
-// Tear down and re-open the CAN socket to recover from a link bounce (ENETDOWN/ENODEV)
-// without restarting the participant.
-// NOTE: any CAN_RAW_FILTER the caller set is lost on recovery and must be re-applied.
+// Re-open CAN socket on link failure; caller filters must be re-applied.
 signed char can_channel_recover(CommChannel *channel_ptr);
 
 #endif
